@@ -1,0 +1,8 @@
+service: crud-serverless-users
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+plugins:
+  - serverless-offline
