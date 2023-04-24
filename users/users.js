@@ -28,6 +28,24 @@ const get = async (event, context) => {
     }
 }
 
+const getOne = async (event, context) => {
+    const userID = event.pathParameters.id
+    const params = {
+        TableName: 'users',
+        Key: {
+            pk: userID
+        }
+    }
+
+    let result = await dynamoDB.get(params).promise()
+
+    return {
+        "statusCode": 200,
+        "body": JSON.stringify({ 'message': `Resultado: ${JSON.stringify(result)}`})
+    }
+}
+
 module.exports = {
-    get
+    get,
+    getOne
 }

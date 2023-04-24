@@ -15,6 +15,12 @@ functions:
       - http:
           path: users
           method: GET
+  getUser:
+    handler: users/users.getOne
+    events:
+      - http:
+          path: users/{id}
+          method: GET
 
 custom:
   dynamodb:
