@@ -1,21 +1,25 @@
 const aws = require('aws-sdk')
-const dynamoDB = new aws.DynamoDB.DocumentClient({
-    region: 'localhost',
-    endpoint: 'http://localhost:8000',
-    acessKeyId: 'DEFAULT_ACCESS_KEY',
-    secretAccessKey: 'DEFAULT_SECRET'
-})
+
+let dynamoDBParams = []
+
+if (process.env.IS_OFFLINE) {
+    dynamoDBParams = 
+    {
+        region: 'localhost',
+        endpoint: 'http://localhost:8000',
+        acessKeyId: 'DEFAULT_ACCESS_KEY',
+        secretAccessKey: 'DEFAULT_SECRET'
+    }
+}
+const dynamoDB = new aws.DynamoDB.DocumentClient(dynamoDBParams)
 
 const get = async (event, context) => {
     const params = {
-        ExpressionAttributeValues: {
-            ':pk': '1'
-        },
-        KeyConditionExpression: 'pk = :pk',
-        TableName: 'users' 
+        TableName: 'users',
+        select: 'ALL_ATTRIBUTES'
     }
 
-    let result = await dynamoDB.query(params).promise()
+    let result = await dynamoDB.scan(params).promise()
     console.log(result)
 
     return {
