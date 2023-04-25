@@ -42,7 +42,7 @@ const getOne = async (event, context) => {
 
     return {
         "statusCode": 200,
-        "body": JSON.stringify({ 'message': `Resultado: ${JSON.stringify(result)}`})
+        "body": JSON.stringify({ 'message': 'Usuario encontrado', 'item': result.Item})
     }
 }
 
@@ -59,7 +59,7 @@ const create = async (event, context) => {
 
     return {
         "statusCode": 200,
-        "body": JSON.stringify({ 'message': `Usuario creado exitosamente: ${JSON.stringify(params.Item)}`})
+        "body": JSON.stringify({ 'message': `Usuario creado exitosamente`, item: data})
     }
 }
 
