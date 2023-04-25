@@ -22,8 +22,10 @@ plugins:
 package:
   individually: true
   patterns:
-    - '!.node_modules'
-    - '!.dynamodb'
+    - '!node_modules/**'
+    - '!package-lock.json'
+    - '!serverless.yml'
+    - '!dynamodb/**'
 
 functions:
   getUsers:
