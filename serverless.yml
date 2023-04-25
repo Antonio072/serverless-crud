@@ -22,38 +22,51 @@ plugins:
 package:
   individually: true
   patterns:
-    - '!node_modules/**'
-    - '!package-lock.json'
-    - '!serverless.yml'
-    - '!dynamodb/**'
+    - "!*/**"
+    - "!**"
 
 functions:
   getUsers:
     handler: users/users.get
+    package:
+      patterns:
+        - 'users/users.js'
     events:
       - http:
           path: users
           method: GET
   getUser:
     handler: users/users.getOne
+    package:
+      patterns:
+        - 'users/users.js'
     events:
       - http:
           path: users/{id}
           method: GET
   createUser:
     handler: users/users.create
+    package:
+      patterns:
+        - 'users/users.js'
     events:
       - http:
           path: users
           method: POST
   updateUser:
     handler: users/users.updateOne
+    package:
+      patterns:
+        - 'users/users.js'
     events:
       - http:
           path: users/{id}
           method: PATCH
   deleteUser:
     handler: users/users.deleteOne
+    package:
+      patterns:
+        - 'users/users.js'
     events:
       - http:
           path: users/{id}
