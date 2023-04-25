@@ -9,3 +9,9 @@ A simple example of how to use the [Serverless Framework](https://serverless.com
 ```bash
 npm install -g serverless
 ```
+
+2. Install the dependencies
+
+```bash
+npm install
+``` 
