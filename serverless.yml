@@ -44,6 +44,12 @@ functions:
       - http:
           path: users
           method: POST
+  updateUser:
+    handler: users/users.updateOne
+    events:
+      - http:
+          path: users/{id}
+          method: PATCH
 
 custom:
   dynamodb:

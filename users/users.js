@@ -14,7 +14,7 @@ if (process.env.IS_OFFLINE) {
 }
 const dynamoDB = new aws.DynamoDB.DocumentClient(dynamoDBParams)
 
-export const get = async (event, context) => {
+const get = async (event, context) => {
     const params = {
         TableName: 'users',
         select: 'ALL_ATTRIBUTES'
@@ -29,7 +29,7 @@ export const get = async (event, context) => {
     }
 }
 
-export const getOne = async (event, context) => {
+const getOne = async (event, context) => {
     const userID = event.pathParameters.id
     const params = {
         TableName: 'users',
@@ -46,7 +46,7 @@ export const getOne = async (event, context) => {
     }
 }
 
-export const create = async (event, context) => {
+const create = async (event, context) => {
     const id = randomUUID()
 
     const data = JSON.parse(event.body)
@@ -61,4 +61,37 @@ export const create = async (event, context) => {
         "statusCode": 200,
         "body": JSON.stringify({ 'message': `Usuario creado exitosamente: ${JSON.stringify(params.Item)}`})
     }
+}
+
+const updateOne = async (event, context) => {
+    const userID = event.pathParameters.id
+    const data = JSON.parse(event.body)
+    const params = {
+        TableName: 'users',
+        Key: {
+            pk: userID
+        },
+        UpdateExpression: 'set #name = :name',
+        ExpressionAttributeNames: {
+            '#name': 'name',
+        },
+        ExpressionAttributeValues: {
+            ':name': data.name,
+        },
+        ReturnValues: 'UPDATED_NEW'
+    }
+
+    await dynamoDB.update(params).promise()
+
+    return {
+        "statusCode": 200,
+        "body": JSON.stringify({ 'message': `Usuario actualizado exitosamente`, 'data': data})
+    }
+}
+
+module.exports = {
+    get,
+    getOne,
+    create,
+    updateOne,
 }
