@@ -89,9 +89,27 @@ const updateOne = async (event, context) => {
     }
 }
 
+const deleteOne = async (event, context) => {
+    const userID = event.pathParameters.id
+    const params = {
+        TableName: 'users',
+        Key: {
+            pk: userID
+        }
+    }
+
+    await dynamoDB.delete(params).promise()
+
+    return {
+        "statusCode": 200,
+        "body": JSON.stringify({ 'message': `Usuario eliminado exitosamente`, 'item': userID})
+    }
+}
+
 module.exports = {
     get,
     getOne,
     create,
     updateOne,
+    deleteOne,
 }

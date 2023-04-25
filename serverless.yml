@@ -50,6 +50,12 @@ functions:
       - http:
           path: users/{id}
           method: PATCH
+  deleteUser:
+    handler: users/users.deleteOne
+    events:
+      - http:
+          path: users/{id}
+          method: DELETE
 
 custom:
   dynamodb:
