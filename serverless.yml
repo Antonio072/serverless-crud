@@ -19,6 +19,12 @@ plugins:
   - serverless-offline
   - serverless-dynamodb-local
 
+package:
+  individually: true
+  patterns:
+    - '!.node_modules'
+    - '!.dynamodb'
+
 functions:
   getUsers:
     handler: users/users.get
@@ -32,6 +38,12 @@ functions:
       - http:
           path: users/{id}
           method: GET
+  createUser:
+    handler: users/users.create
+    events:
+      - http:
+          path: users
+          method: POST
 
 custom:
   dynamodb:

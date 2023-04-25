@@ -1,4 +1,5 @@
 const aws = require('aws-sdk')
+const { randomUUID } = require('crypto')
 
 let dynamoDBParams = []
 
@@ -45,7 +46,25 @@ const getOne = async (event, context) => {
     }
 }
 
+const create = async (event, context) => {
+    const id = randomUUID()
+
+    const data = JSON.parse(event.body)
+    data.pk = id
+    const params = {
+        TableName: 'users',
+        Item: data
+    }
+    await dynamoDB.put(params).promise()
+
+    return {
+        "statusCode": 200,
+        "body": JSON.stringify({ 'message': `Usuario creado exitosamente: ${JSON.stringify(params.Item)}`})
+    }
+}
+
 module.exports = {
     get,
-    getOne
+    getOne,
+    create,
 }
