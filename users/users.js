@@ -14,7 +14,7 @@ if (process.env.IS_OFFLINE) {
 }
 const dynamoDB = new aws.DynamoDB.DocumentClient(dynamoDBParams)
 
-const get = async (event, context) => {
+export const get = async (event, context) => {
     const params = {
         TableName: 'users',
         select: 'ALL_ATTRIBUTES'
@@ -29,7 +29,7 @@ const get = async (event, context) => {
     }
 }
 
-const getOne = async (event, context) => {
+export const getOne = async (event, context) => {
     const userID = event.pathParameters.id
     const params = {
         TableName: 'users',
@@ -46,7 +46,7 @@ const getOne = async (event, context) => {
     }
 }
 
-const create = async (event, context) => {
+export const create = async (event, context) => {
     const id = randomUUID()
 
     const data = JSON.parse(event.body)
@@ -61,10 +61,4 @@ const create = async (event, context) => {
         "statusCode": 200,
         "body": JSON.stringify({ 'message': `Usuario creado exitosamente: ${JSON.stringify(params.Item)}`})
     }
-}
-
-module.exports = {
-    get,
-    getOne,
-    create,
 }
